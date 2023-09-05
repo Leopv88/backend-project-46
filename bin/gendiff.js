@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
-import genDiff from '@hexlet/code';
+import { program } from 'commander';
 
-const diff = genDiff(filepath1, filepath2);
-console.log(diff);
+program
+  .name('gendiff')
+  .description('  Compares two configuration files and shows a difference.')
+  .version('1.0.0');
+
+program.parse();
