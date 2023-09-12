@@ -14,23 +14,23 @@ export default (filepath1, filepath2) => {
         const addData = '+ ' + key;
         const deleteData = '- ' + key;
         const noChangeData = '  ' + key;
-        const newResult = {};
+        let newResult = ''; 
 
        if(!_.has(parseFile2, key)) {
-            newResult[deleteData] = data1;
+            newResult += deleteData + ': ' + data1;
         };
 
         if(!_.has(parseFile1, key)) {
-            newResult[addData] = data2;
+            newResult += addData + ': ' + data1;
         };
 
         if(data1 !== data2 && (_.has(parseFile2, key)) && (_.has(parseFile1, key))) {
-            newResult[deleteData] = data1;
-            newResult[addData] = data2;
+            newResult += deleteData + ': ' + data1;
+            newResult += addData + ': ' + data2;
         };
 
         if(data1 == data2) {
-            newResult[noChangeData] = data1;            
+            newResult += noChangeData + ': ' + data2;
         };
 
         return newResult;
