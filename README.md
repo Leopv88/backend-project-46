@@ -3,11 +3,16 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/a5cbf3952b51453da334/maintainability)](https://codeclimate.com/github/Leopv88/backend-project-46/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a5cbf3952b51453da334/test_coverage)](https://codeclimate.com/github/Leopv88/backend-project-46/test_coverage)
 
-## Setup
+## Install 
 
 ```bash
 make install
 ```
+## Run
+
+`gendiff -h` run help
+
+[![asciicast](https://asciinema.org/a/fORgZYmctmLwtPN5jhzLR6DaB.svg)](https://asciinema.org/a/fORgZYmctmLwtPN5jhzLR6DaB)
 
 ## Run tests
 
