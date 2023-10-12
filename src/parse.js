@@ -1,8 +1,6 @@
-import { readFile } from './fileUtilits.js';
-const getFileExtension = (string) => string.split('.').at(-1);
+import { readFile, getFileExtension } from './fileUtilits.js';
 
 export default (filepath) => {
-  // const absolutFilePath = path.resolve(process.cwd(), filepath);
   switch (getFileExtension(filepath)) {
     case 'json':
       return JSON.parse(readFile(filepath));

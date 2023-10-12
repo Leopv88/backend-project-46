@@ -30,5 +30,5 @@ export default (parseFile1, parseFile2) => {
       return `   ${newResult}`;
     });
 
-  return `{\n${result.join(',\n')}\n}`;
+  return `{\n${result.join('\n')}\n}`;
 };
