@@ -5,6 +5,6 @@ export default (filepath) => {
     case 'json':
       return JSON.parse(readFile(filepath));
     default:
-      throw new Error('Неверный формат файла');
-  }
+      throw new Error(`Неверный формат файла`);
+   }
 };
