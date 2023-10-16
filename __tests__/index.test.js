@@ -7,6 +7,7 @@ const content = readFile('expected_file.json');
 
 test('genDiff', () => {
   expect(genDiff('file1.json', 'file2.json')).toEqual(content);
+  expect(genDiff('filepath1.yml', 'filepath2.yml')).toEqual(content);
 });
 
 test('formatFile', () => {

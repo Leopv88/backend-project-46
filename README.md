@@ -12,7 +12,12 @@ make install
 
 `gendiff -h` run help
 
+## JSON
 [![asciicast](https://asciinema.org/a/fORgZYmctmLwtPN5jhzLR6DaB.svg)](https://asciinema.org/a/fORgZYmctmLwtPN5jhzLR6DaB)
+
+## YAML
+[![asciicast](https://asciinema.org/a/BiPvo8UCmoz4EzmMJhrLz7Xd8.svg)](https://asciinema.org/a/BiPvo8UCmoz4EzmMJhrLz7Xd8)
+
 
 ## Run tests
 
