@@ -23,7 +23,7 @@ const stringify = (value, spacesCount) => {
   return iter(value, 1);
 };
 
-const genDiffJSON = (parseFile1, parseFile2) => {
+export default (parseFile1, parseFile2) => {
   const addData = '+';
   const deleteData = '-';
   const noChangeData = ' ';
@@ -64,13 +64,4 @@ const genDiffJSON = (parseFile1, parseFile2) => {
   };
 
   return iter(parseFile1, parseFile2, 2);
-};
-
-export default (parseFile1, parseFile2, type) => {
-  switch (type) {
-    case 'stylish':
-      return genDiffJSON(parseFile1, parseFile2);
-    default:
-      throw new Error('Output format is not correct');
-  }
 };

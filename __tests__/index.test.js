@@ -1,18 +1,20 @@
 // @ts-check
 import { readFile, getFileExtension } from '../src/fileUtilits.js';
-import genDiff from '../index.js';
+import genDiff from '../src/index.js';
 import parse from '../src/parse.js';
 
-const content = readFile('expected_file.txt');
-const type = 'stylish';
+const expectedFileStylish = readFile('expected_file_stylish.txt');
+const expectedFilePlain = readFile('expected_file_plain.txt');
 
 test('genDiff', () => {
-  expect(genDiff('file1.json', 'file2.json', type)).toEqual(content);
-  expect(genDiff('filepath1.yml', 'filepath2.yml', type)).toEqual(content);
+  expect(genDiff('file1.json', 'file2.json', 'stylish')).toEqual(expectedFileStylish);
+  expect(genDiff('filepath1.yml', 'filepath2.yml', 'stylish')).toEqual(expectedFileStylish);
+  expect(genDiff('filepath1.yaml', 'filepath2.yaml', 'stylish')).toEqual(expectedFileStylish);
+  expect(genDiff('filepath1.yaml', 'filepath2.yaml', 'plain')).toEqual(expectedFilePlain);
 });
 
 test('formatFile', () => {
-  expect(getFileExtension('file1.json')).toEqual('json');
+  expect(getFileExtension('expected_file.txt')).toEqual('txt');
   expect(() => {
     genDiff('file1.json', 'file2.json', 'newType');
   }).toThrow('Output format is not correct');
@@ -20,6 +22,6 @@ test('formatFile', () => {
 
 test('parse', () => {
   expect(() => {
-    parse('file1.txt');
-  }).toThrow('Format file file1.txt is not correct');
+    parse('expected_file.txt');
+  }).toThrow('Format file expected_file.txt is not correct');
 });
