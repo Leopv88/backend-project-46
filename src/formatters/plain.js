@@ -16,29 +16,28 @@ export default (tree) => {
 
   const iter = (object, path) => {
     const result = object
-    .map((key) => {
-      const { value1 } = key;
-      const { value2 } = key;
-      const fullKey = `${path}${key.key}`;
-      if (key.action === 'delete') {
-        return `${first} '${fullKey}' ${deleteData}`;
-      }
-
-      if (key.action === 'add') {
-        return `${first} '${fullKey}' ${addData} ${getString(value2)}`;
-      }
-
-      if (value1 !== value2) {
-        if (key.type === 'object') {
-          return iter(value1, `${fullKey}.`);
+      .map((key) => {
+        const { value1 } = key;
+        const { value2 } = key;
+        const fullKey = `${path}${key.key}`;
+        if (key.action === 'delete') {
+          return `${first} '${fullKey}' ${deleteData}`;
         }
-        else if (key.action === 'change'){
-        return `${first} '${fullKey}' ${change} ${getString(value1)} to ${getString(value2)}`;
-        }
-      }
 
-      return null;
-    });
+        if (key.action === 'add') {
+          return `${first} '${fullKey}' ${addData} ${getString(value2)}`;
+        }
+
+        if (value1 !== value2) {
+          if (key.type === 'object') {
+            return iter(value1, `${fullKey}.`);
+          }
+          if (key.action === 'change') {
+            return `${first} '${fullKey}' ${change} ${getString(value1)} to ${getString(value2)}`;
+          }
+        }
+        return null;
+      });
 
     return [...result]
       .filter((item) => item != null)
