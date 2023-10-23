@@ -12,7 +12,7 @@ make install
 
 `gendiff -h` run help
 
-[![asciicast](https://asciinema.org/a/54rat8m7hZrSBLDvEiPW0DhR2.svg)](https://asciinema.org/a/54rat8m7hZrSBLDvEiPW0DhR2)
+[![asciicast](https://asciinema.org/a/p12y2uSd7s59htgZ309ncapKD.svg)](https://asciinema.org/a/p12y2uSd7s59htgZ309ncapKD)
 
 ## Run tests
 

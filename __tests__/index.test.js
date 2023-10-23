@@ -5,12 +5,15 @@ import parse from '../src/parse.js';
 
 const expectedFileStylish = readFile('expected_file_stylish.txt');
 const expectedFilePlain = readFile('expected_file_plain.txt');
+const expectedFileJSON = readFile('expected_file_json.txt');
+
 
 test('genDiff', () => {
   expect(genDiff('file1.json', 'file2.json', 'stylish')).toEqual(expectedFileStylish);
   expect(genDiff('filepath1.yml', 'filepath2.yml', 'stylish')).toEqual(expectedFileStylish);
   expect(genDiff('filepath1.yaml', 'filepath2.yaml', 'stylish')).toEqual(expectedFileStylish);
   expect(genDiff('filepath1.yaml', 'filepath2.yaml', 'plain')).toEqual(expectedFilePlain);
+  expect(genDiff('filepath1.yaml', 'filepath2.yaml', 'json')).toEqual(expectedFileJSON);
 });
 
 test('formatFile', () => {

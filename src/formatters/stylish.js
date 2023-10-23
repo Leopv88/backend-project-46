@@ -23,38 +23,34 @@ const stringify = (value, spacesCount) => {
   return iter(value, 1);
 };
 
-export default (parseFile1, parseFile2) => {
+export default (tree) => {
   const addData = '+';
   const deleteData = '-';
   const noChangeData = ' ';
 
-  const iter = (parseObj1, parseObj2, spaceCount) => {
+  const iter = (object, spaceCount) => {
     const currentIndent = ' '.repeat(spaceCount);
     const bracketIndent = ' '.repeat(spaceCount - 2);
 
-    const result = _.sortBy(_.union(_.keys(parseObj1), _.keys(parseObj2)))
-      .map((key) => {
-        const value1 = parseObj1[key];
-        const value2 = parseObj2[key];
+    const result = object.map((key) => {
+      if (key.action === 'delete') {
+        return `${currentIndent}${deleteData} ${key.key}: ${stringify(key.value1, spaceCount)}`;
+      }
 
-        if (!_.has(parseObj2, key)) {
-          return `${currentIndent}${deleteData} ${key}: ${stringify(value1, spaceCount)}`;
-        }
+      if (key.action === 'add') {
+        return `${currentIndent}${addData} ${key.key}: ${stringify(key.value2, spaceCount)}`;
+      }
 
-        if (!_.has(parseObj1, key)) {
-          return `${currentIndent}${addData} ${key}: ${stringify(value2, spaceCount)}`;
-        }
+      if (key.type === 'object') {
+        return `${currentIndent}${noChangeData} ${key.key}: ${iter(key.value1, spaceCount + 4)}`;
+      }
 
-        if (_.isObject(value1) && _.isObject(value2)) {
-          return `${currentIndent}${noChangeData} ${key}: ${iter(value1, value2, spaceCount + 4)}`;
-        }
+      if (key.action === 'change') {
+        return [`${currentIndent}${deleteData} ${key.key}: ${stringify(key.value1, spaceCount)}\n${currentIndent}${addData} ${key.key}: ${key.value2}`];
+      }
 
-        if (value1 !== value2) {
-          return [`${currentIndent}${deleteData} ${key}: ${stringify(value1, spaceCount)}\n${currentIndent}${addData} ${key}: ${value2}`];
-        }
-
-        return `${currentIndent}${noChangeData} ${key}: ${value2}`;
-      });
+      return `${currentIndent}${noChangeData} ${key.key}: ${key.value1}`;
+    });
 
     return [
       '{',
@@ -63,5 +59,5 @@ export default (parseFile1, parseFile2) => {
       .join('\n');
   };
 
-  return iter(parseFile1, parseFile2, 2);
+  return iter(tree, 2);
 };
