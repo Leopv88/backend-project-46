@@ -46,10 +46,10 @@ export default (tree) => {
       }
 
       if (key.action === 'change') {
-        return [`${currentIndent}${deleteData} ${key.key}: ${stringify(key.value1, spaceCount)}\n${currentIndent}${addData} ${key.key}: ${key.value2}`];
+        return [`${currentIndent}${deleteData} ${key.key}: ${stringify(key.value1, spaceCount)}\n${currentIndent}${addData} ${key.key}: ${stringify(key.value2, spaceCount)}`];
       }
 
-      return `${currentIndent}${noChangeData} ${key.key}: ${key.value1}`;
+      return `${currentIndent}${noChangeData} ${key.key}: ${stringify(key.value1, spaceCount)}`;
     });
 
     return [
