@@ -21,6 +21,7 @@ test('genDiff', () => {
   expect(genDiff(getFixturePath('filepath1.yaml'), getFixturePath('filepath2.yaml'), 'stylish')).toEqual(expectedFileStylish);
   expect(genDiff(getFixturePath('filepath1.yaml'), getFixturePath('filepath2.yaml'), 'plain')).toEqual(expectedFilePlain);
   expect(genDiff(getFixturePath('filepath1.yaml'), getFixturePath('filepath2.yaml'), 'json')).toEqual(expectedFileJSON);
+  expect(genDiff(getFixturePath('filepath1.yaml'), getFixturePath('filepath2.yaml'), undefined)).toEqual(expectedFileStylish);
 });
 
 test('formatFile', () => {
