@@ -3,7 +3,7 @@ import genDiffPlain from './plain.js';
 import gen from '../formatfile.js';
 
 const getFormatName = (formatName) => {
-  if (formatName == null) {
+  if (formatName === undefined) {
     return 'stylish';
   }
 
