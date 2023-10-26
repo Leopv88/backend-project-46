@@ -1,11 +1,15 @@
 const getString = (value) => {
-  if (typeof (value) === 'string') {
-    return `'${value}'`;
+  switch (typeof (value)) {
+    case 'object':
+      if (value == null) {
+        return value;
+      }
+      return '[complex value]';
+    case 'string':
+      return `'${value}'`;
+    default:
+      return value;
   }
-  if (typeof (value) === 'boolean' || value == null) {
-    return value;
-  }
-  return '[complex value]';
 };
 
 export default (tree) => {
