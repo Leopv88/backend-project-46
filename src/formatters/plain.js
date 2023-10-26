@@ -32,13 +32,11 @@ export default (tree) => {
           return `${first} '${fullKey}' ${addData} ${getString(value2)}`;
         }
 
-        if (value1 !== value2) {
-          if (key.type === 'object') {
-            return iter(value1, `${fullKey}.`);
-          }
-          if (key.action === 'change') {
-            return `${first} '${fullKey}' ${change} ${getString(value1)} to ${getString(value2)}`;
-          }
+        if (key.children) {
+          return iter(key.children, `${fullKey}.`);
+        }
+        if (key.action === 'change') {
+          return `${first} '${fullKey}' ${change} ${getString(value1)} to ${getString(value2)}`;
         }
         return null;
       });

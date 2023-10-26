@@ -41,8 +41,8 @@ export default (tree) => {
         return `${currentIndent}${addData} ${key.key}: ${stringify(key.value2, spaceCount)}`;
       }
 
-      if (key.type === 'object') {
-        return `${currentIndent}${noChangeData} ${key.key}: ${iter(key.value1, spaceCount + 4)}`;
+      if (key.children) {
+        return `${currentIndent}${noChangeData} ${key.key}: ${iter(key.children, spaceCount + 4)}`;
       }
 
       if (key.action === 'change') {
