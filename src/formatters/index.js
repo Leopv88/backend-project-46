@@ -2,9 +2,13 @@ import genDiffJSON from './stylish.js';
 import genDiffPlain from './plain.js';
 import gen from '../formatfile.js';
 
+const getFormatName = (formatName) => {
+  return formatName = formatName ? formatName : 'stylish';
+};
+
 export default (parseFile1, parseFile2, formatName) => {
   const object = gen(parseFile1, parseFile2);
-  switch (formatName) {
+  switch (getFormatName(formatName)) {
     case 'stylish':
       return genDiffJSON(object);
     case 'plain':
