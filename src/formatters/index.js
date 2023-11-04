@@ -1,6 +1,6 @@
 import genDiffJSON from './stylish.js';
 import genDiffPlain from './plain.js';
-import gen from '../formatfile.js';
+import gen from '../buildTree.js';
 
 const getFormatName = (formatName) => {
   if (formatName === undefined) {

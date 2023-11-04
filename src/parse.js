@@ -1,14 +1,13 @@
 import yaml from 'js-yaml';
-import { readFile, getFileExtension } from './fileUtilits.js';
 
-export default (filepath) => {
-  switch (getFileExtension(filepath)) {
+export default (data, format) => {
+  switch (format) {
     case 'json':
-      return JSON.parse(readFile(filepath));
+      return JSON.parse(data);
     case 'yaml':
     case 'yml':
-      return yaml.load(readFile(filepath));
+      return yaml.load(data);
     default:
-      throw new Error(`Format file ${filepath} is not correct`);
+      throw new Error(`Format file ${data} is not correct`);
   }
 };

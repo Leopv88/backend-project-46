@@ -12,31 +12,31 @@ const getString = (value) => {
   }
 };
 
-export default (tree) => {
-  const first = 'Property';
-  const addData = 'was added with value:';
-  const deleteData = 'was removed';
-  const change = 'was updated. From';
+const data = {
+  first: 'Property',
+  added: 'was added with value:',
+  deleted: 'was removed',
+  changed: 'was updated. From',
+};
 
+export default (tree) => {
   const iter = (object, path) => {
     const result = object
       .map((key) => {
-        const { value1 } = key;
-        const { value2 } = key;
         const fullKey = `${path}${key.key}`;
-        if (key.action === 'delete') {
-          return `${first} '${fullKey}' ${deleteData}`;
+        if (key.action === 'deleted') {
+          return `${data.first} '${fullKey}' ${data.deleted}`;
         }
 
-        if (key.action === 'add') {
-          return `${first} '${fullKey}' ${addData} ${getString(value2)}`;
+        if (key.action === 'added') {
+          return `${data.first} '${fullKey}' ${data.added} ${getString(key.newValue)}`;
         }
 
         if (key.children) {
           return iter(key.children, `${fullKey}.`);
         }
-        if (key.action === 'change') {
-          return `${first} '${fullKey}' ${change} ${getString(value1)} to ${getString(value2)}`;
+        if (key.action === 'changed') {
+          return `${data.first} '${fullKey}' ${data.changed} ${getString(key.oldValue)} to ${getString(key.newValue)}`;
         }
         return null;
       });

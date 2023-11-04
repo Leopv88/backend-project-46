@@ -2,7 +2,7 @@
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
-import { getFileExtension } from '../src/fileUtilits.js';
+import { getDataFormat } from '../src/fileUtilits.js';
 import genDiff from '../src/index.js';
 import parse from '../src/parse.js';
 
@@ -25,7 +25,7 @@ test('genDiff', () => {
 });
 
 test('formatFile', () => {
-  expect(getFileExtension('expected_file.txt')).toEqual('txt');
+  expect(getDataFormat('expected_file.txt')).toEqual('txt');
   expect(() => {
     genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'newType');
   }).toThrow('Output format is not correct');

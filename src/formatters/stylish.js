@@ -23,33 +23,35 @@ const stringify = (value, spacesCount) => {
   return iter(value, 1);
 };
 
-export default (tree) => {
-  const addData = '+';
-  const deleteData = '-';
-  const noChangeData = ' ';
+const data = {
+  added: '+',
+  deleted: '-',
+  unchanged: ' ',
+};
 
+export default (tree) => {
   const iter = (object, spaceCount) => {
     const currentIndent = ' '.repeat(spaceCount);
     const bracketIndent = ' '.repeat(spaceCount - 2);
 
     const result = object.map((key) => {
-      if (key.action === 'delete') {
-        return `${currentIndent}${deleteData} ${key.key}: ${stringify(key.value1, spaceCount)}`;
+      if (key.action === 'deleted') {
+        return `${currentIndent}${data.deleted} ${key.key}: ${stringify(key.oldValue, spaceCount)}`;
       }
 
-      if (key.action === 'add') {
-        return `${currentIndent}${addData} ${key.key}: ${stringify(key.value2, spaceCount)}`;
+      if (key.action === 'added') {
+        return `${currentIndent}${data.added} ${key.key}: ${stringify(key.newValue, spaceCount)}`;
       }
 
       if (key.children) {
-        return `${currentIndent}${noChangeData} ${key.key}: ${iter(key.children, spaceCount + 4)}`;
+        return `${currentIndent}${data.unchanged} ${key.key}: ${iter(key.children, spaceCount + 4)}`;
       }
 
-      if (key.action === 'change') {
-        return [`${currentIndent}${deleteData} ${key.key}: ${stringify(key.value1, spaceCount)}\n${currentIndent}${addData} ${key.key}: ${stringify(key.value2, spaceCount)}`];
+      if (key.action === 'changed') {
+        return [`${currentIndent}${data.deleted} ${key.key}: ${stringify(key.oldValue, spaceCount)}\n${currentIndent}${data.added} ${key.key}: ${stringify(key.newValue, spaceCount)}`];
       }
 
-      return `${currentIndent}${noChangeData} ${key.key}: ${stringify(key.value1, spaceCount)}`;
+      return `${currentIndent}${data.unchanged} ${key.key}: ${stringify(key.oldValue, spaceCount)}`;
     });
 
     return [
