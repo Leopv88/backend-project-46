@@ -1,65 +1,64 @@
 import _ from 'lodash';
 
-const stringify = (value, spacesCount) => {
+const data = {
+  added: '+ ',
+  deleted: '- ',
+  space: '  ',
+};
+
+const getSpace = (depth, symbol) => {
+  if (!symbol) {
+    return '    '.repeat(depth);
+  }
+  if (depth === 0 && !symbol) {
+    return '';
+  }
+  return `${'    '.repeat(depth)}  ${symbol}`;
+};
+
+const stringify = (value, level) => {
   const iter = (currentValue, depth) => {
     if (!_.isObject(currentValue)) {
       return `${currentValue}`;
     }
 
-    const indentSize = spacesCount + depth * 4;
-    const currentIndent = ' '.repeat(indentSize);
-    const bracketIndent = ' '.repeat(indentSize - 2);
     const lines = Object
       .entries(currentValue)
-      .map(([key, val]) => `  ${currentIndent}${key}: ${iter(val, depth + 1)}`);
+      .map(([key, val]) => `${getSpace(depth + 1, data.space)}${key}: ${iter(val, depth + 1)}`);
 
     return [
       '{',
       ...lines,
-      `${bracketIndent}}`,
+      `${getSpace(depth + 1)}}`,
     ].join('\n');
   };
 
-  return iter(value, 1);
-};
-
-const data = {
-  added: '+',
-  deleted: '-',
-  unchanged: ' ',
+  return iter(value, level);
 };
 
 export default (tree) => {
-  const iter = (object, spaceCount) => {
-    const currentIndent = ' '.repeat(spaceCount);
-    const bracketIndent = ' '.repeat(spaceCount - 2);
-
+  const iter = (object, depth) => {
     const result = object.map((key) => {
-      if (key.action === 'deleted') {
-        return `${currentIndent}${data.deleted} ${key.key}: ${stringify(key.oldValue, spaceCount)}`;
+      switch (key.action) {
+        case 'deleted':
+          return `${getSpace(depth, data.deleted)}${key.key}: ${stringify(key.oldValue, depth)}`;
+        case 'added':
+          return `${getSpace(depth, data.added)}${key.key}: ${stringify(key.newValue, depth)}`;
+        case 'nested':
+          return `${getSpace(depth, data.space)}${key.key}: ${iter(key.children, depth + 1)}`;
+        case 'changed':
+          return [`${getSpace(depth, data.deleted)}${key.key}: ${stringify(key.oldValue, depth)}\n${getSpace(depth, data.added)}${key.key}: ${stringify(key.newValue, depth)}`];
+        default:
+          return `${getSpace(depth, data.space)}${key.key}: ${stringify(key.oldValue, depth)}`;
       }
-
-      if (key.action === 'added') {
-        return `${currentIndent}${data.added} ${key.key}: ${stringify(key.newValue, spaceCount)}`;
-      }
-
-      if (key.children) {
-        return `${currentIndent}${data.unchanged} ${key.key}: ${iter(key.children, spaceCount + 4)}`;
-      }
-
-      if (key.action === 'changed') {
-        return [`${currentIndent}${data.deleted} ${key.key}: ${stringify(key.oldValue, spaceCount)}\n${currentIndent}${data.added} ${key.key}: ${stringify(key.newValue, spaceCount)}`];
-      }
-
-      return `${currentIndent}${data.unchanged} ${key.key}: ${stringify(key.oldValue, spaceCount)}`;
     });
 
     return [
       '{',
       ...result,
-      `${bracketIndent}}`]
+      `${getSpace(depth)}}`]
       .join('\n');
   };
 
-  return iter(tree, 2);
+  return iter(tree, 0);
 };

@@ -21,7 +21,7 @@ const gen = (parseFile1, parseFile2) => _.sortBy(_.union(_.keys(parseFile1), _.k
     }
     if (_.isObject(oldValue) && _.isObject(newValue)) {
       return {
-        action: 'unchanged',
+        action: 'nested',
         key,
         children: gen(oldValue, newValue),
       };

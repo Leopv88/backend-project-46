@@ -13,7 +13,6 @@ const getString = (value) => {
 };
 
 const data = {
-  first: 'Property',
   added: 'was added with value:',
   deleted: 'was removed',
   changed: 'was updated. From',
@@ -24,21 +23,19 @@ export default (tree) => {
     const result = object
       .map((key) => {
         const fullKey = `${path}${key.key}`;
-        if (key.action === 'deleted') {
-          return `${data.first} '${fullKey}' ${data.deleted}`;
-        }
 
-        if (key.action === 'added') {
-          return `${data.first} '${fullKey}' ${data.added} ${getString(key.newValue)}`;
+        switch (key.action) {
+          case 'deleted':
+            return `Property '${fullKey}' ${data.deleted}`;
+          case 'added':
+            return `Property '${fullKey}' ${data.added} ${getString(key.newValue)}`;
+          case 'nested':
+            return iter(key.children, `${fullKey}.`);
+          case 'changed':
+            return `Property '${fullKey}' ${data.changed} ${getString(key.oldValue)} to ${getString(key.newValue)}`;
+          default:
+            return null;
         }
-
-        if (key.children) {
-          return iter(key.children, `${fullKey}.`);
-        }
-        if (key.action === 'changed') {
-          return `${data.first} '${fullKey}' ${data.changed} ${getString(key.oldValue)} to ${getString(key.newValue)}`;
-        }
-        return null;
       });
 
     return [...result]
